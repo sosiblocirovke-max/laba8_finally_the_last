@@ -1,15 +1,79 @@
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
+# --- Android / Kotlin / Android Studio / Gradle ---
+
+# IntelliJ / Android Studio: не коммитим машинно-зависимые файлы .idea;
+# оставляем только codeStyles, inspectionProfiles, runConfigurations (общие настройки команды).
+/.idea/*
+!/.idea/codeStyles/
+!/.idea/codeStyles/**
+!/.idea/inspectionProfiles/
+!/.idea/inspectionProfiles/**
+!/.idea/runConfigurations/
+!/.idea/runConfigurations/**
+
+# Явно исключаем типичные файлы/папки .idea (на случай особенностей glob на Windows)
 /.idea/workspace.xml
+/.idea/tasks.xml
+/.idea/gradle.xml
+/.idea/libraries/
+/.idea/modules.xml
+/.idea/misc.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+/.idea/compiler.xml
+/.idea/deploymentTargetSelector.xml
+/.idea/AndroidProjectSystem.xml
+/.idea/studiobot.xml
+/.idea/vcs.xml
+/.idea/.name
+/.idea/caches/
+
+*.iml
+
+# Gradle
+.gradle/
+**/build/
+build/
+
+# Локальные SDK/пути (не коммитить)
 local.properties
+/local.properties
+
+# Системные файлы
+.DS_Store
+Thumbs.db
+
+# Сборки и нативные артефакты
+/captures
+**/captures/
+.externalNativeBuild/
+.cxx/
+
+# Упакованные артефакты и подписи
+*.apk
+*.apk.idsig
+*.aab
+*.aar
+*.keystore
+*.jks
+
+# Firebase / Google Services (содержит ключи проекта; не в репозитории)
+google-services.json
+
+# Логи и временные файлы
+*.log
+*.tmp
+*.temp
+
+# Kotlin / JVM
+*.class
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+
+# Android Profiling
+*.hprof
+
+# NDK / CMake (дополнительно к .cxx)
+obj/
+
+# Быстрые локальные заметки
+*.orig
