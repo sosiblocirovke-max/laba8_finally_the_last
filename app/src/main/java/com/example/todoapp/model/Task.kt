@@ -11,4 +11,8 @@ data class Task(
     val isDone: Boolean,
     val dueDate: Long?,
     val createdAt: Long,
+    /** Главная (`true`) или второстепенная (`false`) — не попадает в блок «Главные задачи» в списке. */
+    val isMainTask: Boolean = true,
+    /** Пометка «избранное» (звезда). */
+    val isFavorite: Boolean = false,
 )

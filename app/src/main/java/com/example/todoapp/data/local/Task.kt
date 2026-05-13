@@ -22,4 +22,8 @@ data class Task(
     val dueDate: Long? = null,
     /** Момент создания записи (миллисекунды UTC); по умолчанию — текущее время при создании объекта в коде. */
     val createdAt: Long = System.currentTimeMillis(),
+    /** `true` — главная задача; `false` — второстепенная (все такие показываются отдельным разделом в списке). */
+    val isMainTask: Boolean = true,
+    /** Избранное: выделение звёздочкой в списке и на детальном экране. */
+    val isFavorite: Boolean = false,
 )

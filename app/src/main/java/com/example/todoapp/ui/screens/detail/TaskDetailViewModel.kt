@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 /**
  * ViewModel экрана деталей: [taskId] читается из [SavedStateHandle] (ключ совпадает с именем аргумента в `navArgument`),
- * UI подписывается на [Task] из репозитория; переключение «выполнено» и удаление уходят в [TaskRepository] в корутине.
+ * UI подписывается на [Task] из репозитория; переключение «выполнено», «избранное» и удаление уходят в [TaskRepository] в корутине.
  */
 @HiltViewModel
 class TaskDetailViewModel @Inject constructor(
@@ -37,5 +37,9 @@ class TaskDetailViewModel @Inject constructor(
 
     fun onDelete(task: Task) = viewModelScope.launch {
         repository.delete(task)
+    }
+
+    fun onToggleFavorite(task: Task) = viewModelScope.launch {
+        repository.save(task.copy(isFavorite = !task.isFavorite))
     }
 }

@@ -51,6 +51,8 @@ class TaskRepositoryImpl @Inject constructor(
         isDone = isDone,
         dueDate = dueDate,
         createdAt = createdAt,
+        isMainTask = isMainTask,
+        isFavorite = isFavorite,
     )
 
     private fun Task.toEntity(): LocalTask = LocalTask(
@@ -60,5 +62,7 @@ class TaskRepositoryImpl @Inject constructor(
         isDone = isDone,
         dueDate = dueDate,
         createdAt = createdAt,
+        isMainTask = isMainTask,
+        isFavorite = isFavorite,
     )
 }

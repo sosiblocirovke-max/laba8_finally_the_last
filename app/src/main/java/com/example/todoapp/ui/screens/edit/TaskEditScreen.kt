@@ -9,6 +9,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.StarOutline
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -149,6 +151,51 @@ fun TaskEditScreen(
                     .fillMaxWidth()
                     .padding(bottom = 12.dp),
             )
+            Column(modifier = Modifier.padding(bottom = 16.dp)) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Switch(
+                        checked = state.isMainTask,
+                        onCheckedChange = viewModel::onMainTaskChange,
+                    )
+                    Text(
+                        text = "Главная задача",
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(start = 8.dp),
+                    )
+                }
+                Text(
+                    text = "Если выключено — задача попадёт в раздел «Второстепенные задачи» в списке.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = 4.dp, start = 52.dp),
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = "Избранное",
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.weight(1f),
+                )
+                IconButton(onClick = { viewModel.onFavoriteChange(!state.isFavorite) }) {
+                    Icon(
+                        imageVector = if (state.isFavorite) Icons.Filled.Star else Icons.Outlined.StarOutline,
+                        contentDescription = if (state.isFavorite) "Убрать из избранного" else "В избранное",
+                        tint = if (state.isFavorite) {
+                            MaterialTheme.colorScheme.primary
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                        },
+                    )
+                }
+            }
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

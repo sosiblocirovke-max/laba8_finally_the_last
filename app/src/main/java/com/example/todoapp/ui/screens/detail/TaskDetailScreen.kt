@@ -1,15 +1,21 @@
 package com.example.todoapp.ui.screens.detail
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.BookmarkBorder
+import androidx.compose.material.icons.outlined.StarOutline
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.CircularProgressIndicator
@@ -95,6 +101,17 @@ fun TaskDetailScreen(
                 },
                 actions = {
                     currentTask?.let { t ->
+                        IconButton(onClick = { viewModel.onToggleFavorite(t) }) {
+                            Icon(
+                                imageVector = if (t.isFavorite) Icons.Filled.Star else Icons.Outlined.StarOutline,
+                                contentDescription = if (t.isFavorite) "Убрать из избранного" else "В избранное",
+                                tint = if (t.isFavorite) {
+                                    MaterialTheme.colorScheme.primary
+                                } else {
+                                    MaterialTheme.colorScheme.onSurfaceVariant
+                                },
+                            )
+                        }
                         IconButton(onClick = { onEdit(t.id) }) {
                             Icon(
                                 imageVector = Icons.Default.Edit,
@@ -129,23 +146,39 @@ fun TaskDetailScreen(
                             text = t.title,
                             style = MaterialTheme.typography.headlineSmall,
                         )
-                        AssistChip(
-                            onClick = {},
-                            label = {
-                                Text(if (t.isDone) "Выполнено" else "В работе")
-                            },
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = if (t.isDone) {
-                                        Icons.Default.CheckCircle
-                                    } else {
-                                        Icons.Default.Schedule
-                                    },
-                                    contentDescription = null,
-                                )
-                            },
+                        Row(
                             modifier = Modifier.padding(top = 12.dp, bottom = 8.dp),
-                        )
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        ) {
+                            AssistChip(
+                                onClick = {},
+                                label = {
+                                    Text(if (t.isDone) "Выполнено" else "В работе")
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = if (t.isDone) {
+                                            Icons.Default.CheckCircle
+                                        } else {
+                                            Icons.Default.Schedule
+                                        },
+                                        contentDescription = null,
+                                    )
+                                },
+                            )
+                            AssistChip(
+                                onClick = {},
+                                label = {
+                                    Text(if (t.isMainTask) "Главная" else "Второстепенная")
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = if (t.isMainTask) Icons.Filled.Bookmark else Icons.Outlined.BookmarkBorder,
+                                        contentDescription = null,
+                                    )
+                                },
+                            )
+                        }
                         if (t.description.isNotBlank()) {
                             Text(
                                 text = t.description,

@@ -44,6 +44,8 @@ class TaskEditViewModel @Inject constructor(
                             description = task.description,
                             dueDate = task.dueDate,
                             isDone = task.isDone,
+                            isMainTask = task.isMainTask,
+                            isFavorite = task.isFavorite,
                         )
                     }
                 }
@@ -58,6 +60,10 @@ class TaskEditViewModel @Inject constructor(
     fun onDueDateChange(ts: Long?) = _state.update { it.copy(dueDate = ts, error = null) }
 
     fun onIsDoneChange(b: Boolean) = _state.update { it.copy(isDone = b, error = null) }
+
+    fun onMainTaskChange(b: Boolean) = _state.update { it.copy(isMainTask = b, error = null) }
+
+    fun onFavoriteChange(b: Boolean) = _state.update { it.copy(isFavorite = b, error = null) }
 
     fun save() = viewModelScope.launch {
         val s = _state.value
@@ -74,6 +80,8 @@ class TaskEditViewModel @Inject constructor(
                 isDone = s.isDone,
                 dueDate = s.dueDate,
                 createdAt = persistedCreatedAt,
+                isMainTask = s.isMainTask,
+                isFavorite = s.isFavorite,
             )
             repository.save(task)
             _state.update { it.copy(isSaved = true, isSaving = false) }

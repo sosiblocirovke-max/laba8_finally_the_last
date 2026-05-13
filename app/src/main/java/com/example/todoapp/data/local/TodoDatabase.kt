@@ -17,12 +17,12 @@ import androidx.room.TypeConverters
  *     }
  * }
  * ```
- * JSON-схемы при `exportSchema = true` пишутся в каталог `schemas/` (см. `room.schemaLocation` в `app/build.gradle.kts`).
+ * **Схема:** при `exportSchema = true` добавьте JSON в `app/schemas/` (см. `room.schemaLocation`). Сейчас `false`, чтобы не блокировать сборку без сгенерированного `2.json`.
  */
 @Database(
     entities = [Task::class],
-    version = 1,
-    exportSchema = true,
+    version = 2,
+    exportSchema = false,
 )
 @TypeConverters(Converters::class)
 abstract class TodoDatabase : RoomDatabase() {

@@ -15,10 +15,15 @@ import kotlinx.coroutines.flow.Flow
 interface TaskDao {
 
     /**
-     * Поток всех задач: сначала невыполненные, внутри группы — по растущему дедлайну (null раньше по правилам SQLite),
-     * при равенстве — новее по [Task.createdAt].
+     * Поток всех задач: сначала главные ([Task.isMainTask] == true), затем второстепенные; внутри группы — избранные,
+     * затем невыполненные, дедлайн и [Task.createdAt].
      */
-    @Query("SELECT * FROM tasks ORDER BY isDone ASC, dueDate ASC, createdAt DESC")
+    @Query(
+        """
+        SELECT * FROM tasks
+        ORDER BY isMainTask DESC, isFavorite DESC, isDone ASC, dueDate ASC, createdAt DESC
+        """,
+    )
     fun getAll(): Flow<List<Task>>
 
     /**
@@ -59,7 +64,7 @@ interface TaskDao {
         """
         SELECT * FROM tasks
         WHERE title LIKE '%' || :query || '%'
-        ORDER BY isDone ASC, dueDate ASC, createdAt DESC
+        ORDER BY isMainTask DESC, isFavorite DESC, isDone ASC, dueDate ASC, createdAt DESC
         """,
     )
     fun search(query: String): Flow<List<Task>>

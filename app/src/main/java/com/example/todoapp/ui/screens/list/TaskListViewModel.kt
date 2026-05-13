@@ -28,7 +28,7 @@ class TaskListViewModel @Inject constructor(
 
     private val _query = MutableStateFlow("")
 
-    /** Ошибки операций [onToggleDone] / [onDelete]; комбинируется с ошибками потока данных. */
+    /** Ошибки операций [onToggleDone], [onDelete], [onToggleFavorite]; комбинируется с ошибками потока данных. */
     private val _mutationError = MutableStateFlow<String?>(null)
 
     private val tasksFromRepo: Flow<Triple<String, List<Task>, String?>> =
@@ -77,6 +77,16 @@ class TaskListViewModel @Inject constructor(
     fun onDelete(task: Task) = viewModelScope.launch {
         try {
             repository.delete(task)
+            _mutationError.value = null
+        } catch (e: Exception) {
+            _mutationError.value = e.message ?: e.toString()
+        }
+    }
+
+    /** Переключает признак «избранное». */
+    fun onToggleFavorite(task: Task) = viewModelScope.launch {
+        try {
+            repository.save(task.copy(isFavorite = !task.isFavorite))
             _mutationError.value = null
         } catch (e: Exception) {
             _mutationError.value = e.message ?: e.toString()

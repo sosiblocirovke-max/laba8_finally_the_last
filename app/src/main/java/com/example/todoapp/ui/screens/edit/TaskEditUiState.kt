@@ -8,6 +8,8 @@ data class TaskEditUiState(
     val description: String = "",
     val dueDate: Long? = null,
     val isDone: Boolean = false,
+    val isMainTask: Boolean = true,
+    val isFavorite: Boolean = false,
     val isSaving: Boolean = false,
     val isSaved: Boolean = false,
     val error: String? = null,
